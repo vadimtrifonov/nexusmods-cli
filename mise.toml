@@ -1,0 +1,35 @@
+[tools]
+dotnet = "10"
+
+[tasks.restore]
+run = "dotnet restore nexusmods-cli.slnx --locked-mode"
+
+[tasks.build]
+depends = ["restore"]
+run = "dotnet build nexusmods-cli.slnx --no-restore --configuration Release"
+
+[tasks.test]
+depends = ["restore"]
+run = "dotnet test nexusmods-cli.slnx --no-restore --configuration Release"
+
+[tasks.check]
+depends = ["test"]
+
+[tasks.publish]
+shell = "powershell.exe -NoProfile -Command"
+run = '''
+$ErrorActionPreference = 'Stop'
+[xml] $project = Get-Content 'src/NexusMods/NexusMods.csproj'
+$version = [string] $project.Project.PropertyGroup.Version
+$directory = "artifacts/nexusmods-$version-win-x64"
+$archive = "$directory.zip"
+foreach ($path in @($directory, $archive)) {
+  if (Test-Path $path) { Remove-Item -Recurse -Force $path }
+}
+dotnet restore src/NexusMods/NexusMods.csproj --locked-mode --runtime win-x64
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+dotnet publish src/NexusMods/NexusMods.csproj --configuration Release --no-restore --no-self-contained --runtime win-x64 -p:DebugType=None -p:DebugSymbols=false --output $directory
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+& "$env:SystemRoot/System32/tar.exe" -a -c -f $archive -C $directory .
+exit $LASTEXITCODE
+'''

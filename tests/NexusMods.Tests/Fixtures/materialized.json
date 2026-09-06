@@ -1,0 +1,51 @@
+{
+  "dependencies": [
+    {
+      "id": "700",
+      "candidate_mod_files": [
+        {
+          "id": "900",
+          "name": "Main chain",
+          "mod": {
+            "id": "7318624284988",
+            "game_scoped_id": "12604",
+            "name": "Required Mod",
+            "game": {
+              "id": "1704",
+              "name": "Skyrim Special Edition",
+              "domain_name": "skyrimspecialedition"
+            }
+          },
+          "candidate_versions": [
+            {
+              "id": "501",
+              "game_scoped_id": "124",
+              "file": {
+                "id": "900",
+                "name": "Main chain"
+              },
+              "position": "1",
+              "name": "Version 1",
+              "version": "v1",
+              "category": "main",
+              "uploaded_at": "2026-01-01T00:00:00Z"
+            },
+            {
+              "id": "502",
+              "game_scoped_id": "125",
+              "file": {
+                "id": "900",
+                "name": "Main chain"
+              },
+              "position": "2",
+              "name": "Version 2",
+              "version": "v2",
+              "category": "main",
+              "uploaded_at": "2026-01-01T00:00:00Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

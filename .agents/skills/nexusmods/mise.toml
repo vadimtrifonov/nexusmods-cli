@@ -1,0 +1,3 @@
+[tools]
+dotnet = "10"
+"github:vadimtrifonov/nexusmods-cli" = "1.0.0"

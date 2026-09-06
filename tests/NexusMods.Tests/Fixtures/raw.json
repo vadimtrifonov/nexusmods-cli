@@ -1,0 +1,100 @@
+{
+  "dependency_definitions": [
+    {
+      "id": "700",
+      "ranges": [
+        {
+          "id": "701",
+          "target_mod_file": {
+            "id": "900",
+            "name": "Main chain",
+            "mod": {
+              "id": "7318624284988",
+              "game_scoped_id": "12604",
+              "name": "Required Mod",
+              "game": {
+                "id": "1704",
+                "name": "Skyrim Special Edition",
+                "domain_name": "skyrimspecialedition"
+              }
+            }
+          },
+          "min_version": {
+            "id": "501",
+            "game_scoped_id": "124",
+            "file": {
+              "id": "900",
+              "name": "Main chain"
+            },
+            "position": "1",
+            "name": "Version 1",
+            "version": "v1",
+            "category": "main",
+            "uploaded_at": "2026-01-01T00:00:00Z"
+          },
+          "max_version": {
+            "id": "502",
+            "game_scoped_id": "125",
+            "file": {
+              "id": "900",
+              "name": "Main chain"
+            },
+            "position": "2",
+            "name": "Version 2",
+            "version": "v2",
+            "category": "main",
+            "uploaded_at": "2026-01-01T00:00:00Z"
+          }
+        },
+        {
+          "id": "702",
+          "target_mod_file": {
+            "id": "900",
+            "name": "Main chain",
+            "mod": {
+              "id": "7318624284988",
+              "game_scoped_id": "12604",
+              "name": "Required Mod",
+              "game": {
+                "id": "1704",
+                "name": "Skyrim Special Edition",
+                "domain_name": "skyrimspecialedition"
+              }
+            }
+          },
+          "min_version": {
+            "id": "503",
+            "game_scoped_id": "126",
+            "file": {
+              "id": "900",
+              "name": "Main chain"
+            },
+            "position": "4",
+            "name": "Version 4",
+            "version": "v4",
+            "category": "main",
+            "uploaded_at": "2026-01-01T00:00:00Z"
+          },
+          "max_version": null
+        }
+      ]
+    }
+  ],
+  "dlc_dependency_definitions": [
+    {
+      "id": "800",
+      "dlc_targets": [
+        {
+          "id": "801",
+          "dlc_id": "1",
+          "name": "Dawnguard"
+        },
+        {
+          "id": "802",
+          "dlc_id": "2",
+          "name": "Dragonborn"
+        }
+      ]
+    }
+  ]
+}

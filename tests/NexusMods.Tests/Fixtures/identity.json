@@ -1,0 +1,6 @@
+{
+  "data": {
+    "id": "version-500", "game_scoped_id": "123", "file": { "id": "900", "name": "Main chain" },
+    "position": "3", "name": "Version 3", "version": "v3", "category": "main", "uploaded_at": "2026-01-01T00:00:00Z"
+  }
+}

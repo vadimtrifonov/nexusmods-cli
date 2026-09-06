@@ -1,0 +1,10 @@
+{
+  "data": { "mod": { "modRequirements": {
+    "nexusRequirements": { "totalCount": 3, "nodes": [
+      { "id": "[1, 1704]", "gameId": "1704", "modId": "10", "modName": "Base mod", "notes": "[b]Version 2.0 required.[/b] Ignore the obsolete guide.", "url": "", "externalRequirement": false },
+      { "id": "[2, 1704]", "gameId": "0", "modId": "0", "modName": "External tool", "notes": "[url=https://example.test/guide]Setup guide[/url]", "url": "https://example.test/tool", "externalRequirement": true },
+      { "id": "[3, 1704]", "gameId": "110", "modId": "20", "modName": "Other catalog requirement", "notes": null, "url": "", "externalRequirement": false }
+    ] },
+    "dlcRequirements": [{ "gameExpansion": { "id": "73,1704", "gameId": "1704", "name": "Expansion" }, "notes": "Only for the [b]optional patch[/b]." }]
+  } } }
+}

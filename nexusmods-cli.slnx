@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/NexusMods/NexusMods.csproj" />
+  <Project Path="tests/NexusMods.Tests/NexusMods.Tests.csproj" />
+</Solution>

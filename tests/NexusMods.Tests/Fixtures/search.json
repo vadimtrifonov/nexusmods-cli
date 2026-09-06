@@ -1,0 +1,53 @@
+{
+  "data": {
+    "mods": {
+      "totalCount": 1,
+      "nodesCount": 1,
+      "nodes": [
+        {
+          "uid": "7318624284988",
+          "modId": 12604,
+          "name": "SkyUI",
+          "author": "SkyUI Team",
+          "summary": "Summary",
+          "description": "[b]Description[/b]<br>Read [url=https://example.test/guide]the guide[/url].",
+          "status": "published",
+          "category": "User Interface",
+          "version": "6.11",
+          "createdAt": "2017-10-01T11:55:43Z",
+          "updatedAt": "2026-05-05T22:41:21Z",
+          "endorsements": 10,
+          "downloads": 20,
+          "adultContent": false,
+          "directDownloadEnabled": true,
+          "legacyModRequirementsEnabled": true,
+          "uploader": {
+            "memberId": 28794,
+            "name": "uploader"
+          },
+          "modCategory": {
+            "categoryId": 42,
+            "name": "User Interface"
+          },
+          "tags": [
+            {
+              "id": "1466",
+              "name": "Skyrim Script Extender (SKSE)"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "errors": [
+    {
+      "message": "Optional field failed",
+      "path": [
+        "mods",
+        "nodes",
+        0,
+        "pictureUrl"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "status": "complete",
+  "data": {
+    "mod": {
+      "uid": "7318624284988",
+      "mod_id": "12604",
+      "url": "https://www.nexusmods.com/skyrimspecialedition/mods/12604",
+      "name": "SkyUI",
+      "author": "SkyUI Team",
+      "uploader": {
+        "id": "28794",
+        "name": "uploader"
+      },
+      "status": "published",
+      "category": {
+        "id": "42",
+        "name": "User Interface"
+      },
+      "tags": [
+        {
+          "id": "1466",
+          "name": "Skyrim Script Extender (SKSE)"
+        }
+      ],
+      "summary": "Summary",
+      "description": {
+        "text": "Description\nRead the guide (https://example.test/guide).",
+        "source_url": "https://www.nexusmods.com/skyrimspecialedition/mods/12604"
+      },
+      "page_version": "6.11",
+      "created_at": "2017-10-01T11:55:43.000Z",
+      "updated_at": "2026-05-05T22:41:21.000Z",
+      "endorsements": 10,
+      "downloads": 20,
+      "adult": false,
+      "direct_download_enabled": true,
+      "legacy_mod_requirements_enabled": true
+    },
+    "files": {
+      "total_count": 1,
+      "returned_count": 1,
+      "offset": 0,
+      "limit": 50,
+      "category": null,
+      "totals_by_category": {
+        "MAIN": 1
+      },
+      "records": [
+        {
+          "uid": "7318625021427",
+          "file_id": "749043",
+          "mod_id": "12604",
+          "name": "SkyUI",
+          "uri": "storage/fixture",
+          "version": "6.11",
+          "category": "MAIN",
+          "primary": true,
+          "uploaded_at": "2026-05-05T22:41:21.000Z",
+          "size_bytes": "2693003",
+          "description": "Main\nFile",
+          "manager_download": true,
+          "virus_scan_status": "VERIFIED"
+        }
+      ]
+    },
+    "selected_file": {
+      "uid": "7318625021427",
+      "file_id": "749043",
+      "mod_id": "12604",
+      "name": "SkyUI",
+      "uri": "storage/fixture",
+      "version": "6.11",
+      "category": "MAIN",
+      "primary": true,
+      "uploaded_at": "2026-05-05T22:41:21.000Z",
+      "size_bytes": "2693003",
+      "description": "Main\nFile",
+      "manager_download": true,
+      "virus_scan_status": "VERIFIED",
+      "changelog": [
+        "Changed"
+      ]
+    },
+    "dependencies": {
+      "status": "not_applicable",
+      "reason": "legacy_dependency_model"
+    },
+    "author_declared_requirements": {
+      "status": "ok",
+      "nexus": {
+        "total_count": 3,
+        "returned_count": 3,
+        "records": [
+          {
+            "id": "[1, 1704]",
+            "game_id": "1704",
+            "mod_id": "10",
+            "name": "Base mod",
+            "notes": "Version 2.0 required. Ignore the obsolete guide.",
+            "url": "",
+            "external": false
+          },
+          {
+            "id": "[2, 1704]",
+            "game_id": "0",
+            "mod_id": "0",
+            "name": "External tool",
+            "notes": "Setup guide (https://example.test/guide)",
+            "url": "https://example.test/tool",
+            "external": true
+          },
+          {
+            "id": "[3, 1704]",
+            "game_id": "110",
+            "mod_id": "20",
+            "name": "Other catalog requirement",
+            "notes": null,
+            "url": "",
+            "external": false
+          }
+        ]
+      },
+      "dlc": [
+        {
+          "id": "73,1704",
+          "game_id": "1704",
+          "name": "Expansion",
+          "notes": "Only for the optional patch."
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "meta": {
+    "sources": [
+      "nexus-v2"
+    ]
+  }
+}

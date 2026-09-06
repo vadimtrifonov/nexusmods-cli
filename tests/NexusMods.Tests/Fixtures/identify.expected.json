@@ -1,0 +1,72 @@
+{
+  "status": "complete",
+  "data": {
+    "local": {
+      "size_bytes": "13",
+      "md5": "6e16e5a4960748b3b386b95310db0c5c"
+    },
+    "associations": [
+      {
+        "md5": "6e16e5a4960748b3b386b95310db0c5c",
+        "uploaded_archive_name": "upload-0.zip",
+        "uploaded_size_bytes": "13",
+        "file_type": "archive",
+        "game_id": "1704",
+        "file_id": "1",
+        "indexed_at": "2026-08-31T00:00:00.000Z",
+        "nexus_file": {
+          "game_id": "1704",
+          "game_domain": "skyrimspecialedition",
+          "mod_id": "10",
+          "mod_name": "Fixture Mod",
+          "mod_url": "https://www.nexusmods.com/skyrimspecialedition/mods/10",
+          "file_id": "1",
+          "display_name": "Fixture",
+          "uri": "storage/fixture",
+          "version": "1.0",
+          "category": "MAIN",
+          "size_bytes": "13"
+        }
+      },
+      {
+        "md5": "6e16e5a4960748b3b386b95310db0c5c",
+        "uploaded_archive_name": "upload-1.zip",
+        "uploaded_size_bytes": "13",
+        "file_type": "archive",
+        "game_id": "1704",
+        "file_id": "2",
+        "indexed_at": "2026-08-31T00:00:00.000Z",
+        "nexus_file": null
+      },
+      {
+        "md5": "6e16e5a4960748b3b386b95310db0c5c",
+        "uploaded_archive_name": "upload-2.zip",
+        "uploaded_size_bytes": "1",
+        "file_type": "archive",
+        "game_id": "1704",
+        "file_id": "3",
+        "indexed_at": "2026-08-31T00:00:00.000Z",
+        "nexus_file": {
+          "game_id": "1704",
+          "game_domain": "skyrimspecialedition",
+          "mod_id": "10",
+          "mod_name": "Fixture Mod",
+          "mod_url": "https://www.nexusmods.com/skyrimspecialedition/mods/10",
+          "file_id": "3",
+          "display_name": "Fixture",
+          "uri": "storage/fixture",
+          "version": "1.0",
+          "category": "MAIN",
+          "size_bytes": "13"
+        }
+      }
+    ]
+  },
+  "errors": [],
+  "meta": {
+    "sources": [
+      "local-file",
+      "nexus-v2"
+    ]
+  }
+}

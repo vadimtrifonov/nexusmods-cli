@@ -1,0 +1,68 @@
+{
+  "data": {
+    "fileHashes": [
+      {
+        "md5": "6e16e5a4960748b3b386b95310db0c5c",
+        "fileName": "upload-0.zip",
+        "fileSize": 13,
+        "fileType": "archive",
+        "gameId": 1704,
+        "modFileId": 1,
+        "createdAt": "2026-08-31T00:00:00Z",
+        "modFile": {
+          "fileId": 1,
+          "modId": 10,
+          "name": "Fixture",
+          "version": "1.0",
+          "category": "MAIN",
+          "uri": "storage/fixture",
+          "sizeInBytes": "13",
+          "game": {
+            "id": 1704,
+            "domainName": "skyrimspecialedition"
+          },
+          "mod": {
+            "modId": 10,
+            "name": "Fixture Mod"
+          }
+        }
+      },
+      {
+        "md5": "6e16e5a4960748b3b386b95310db0c5c",
+        "fileName": "upload-1.zip",
+        "fileSize": 13,
+        "fileType": "archive",
+        "gameId": 1704,
+        "modFileId": 2,
+        "createdAt": "2026-08-31T00:00:00Z",
+        "modFile": null
+      },
+      {
+        "md5": "6e16e5a4960748b3b386b95310db0c5c",
+        "fileName": "upload-2.zip",
+        "fileSize": 1,
+        "fileType": "archive",
+        "gameId": 1704,
+        "modFileId": 3,
+        "createdAt": "2026-08-31T00:00:00Z",
+        "modFile": {
+          "fileId": 3,
+          "modId": 10,
+          "name": "Fixture",
+          "version": "1.0",
+          "category": "MAIN",
+          "uri": "storage/fixture",
+          "sizeInBytes": "13",
+          "game": {
+            "id": 1704,
+            "domainName": "skyrimspecialedition"
+          },
+          "mod": {
+            "modId": 10,
+            "name": "Fixture Mod"
+          }
+        }
+      }
+    ]
+  }
+}
