@@ -10,7 +10,7 @@
     <UseAppHost>true</UseAppHost>
     <AssemblyName>nexusmods</AssemblyName>
     <RootNamespace>NexusMods</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="NexusMods.Tests" />

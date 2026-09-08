@@ -36,33 +36,6 @@
       "direct_download_enabled": true,
       "legacy_mod_requirements_enabled": true
     },
-    "files": {
-      "total_count": 1,
-      "returned_count": 1,
-      "offset": 0,
-      "limit": 50,
-      "category": null,
-      "totals_by_category": {
-        "MAIN": 1
-      },
-      "records": [
-        {
-          "uid": "7318625021427",
-          "file_id": "749043",
-          "mod_id": "12604",
-          "name": "SkyUI",
-          "uri": "storage/fixture",
-          "version": "6.11",
-          "category": "MAIN",
-          "primary": true,
-          "uploaded_at": "2026-05-05T22:41:21.000Z",
-          "size_bytes": "2693003",
-          "description": "Main\nFile",
-          "manager_download": true,
-          "virus_scan_status": "VERIFIED"
-        }
-      ]
-    },
     "selected_file": {
       "uid": "7318625021427",
       "file_id": "749043",

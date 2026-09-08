@@ -69,10 +69,14 @@ mise exec -- nexusmods.exe inspect --game skyrimspecialedition --mod 12604 --fil
 ```
 
 `--mod` accepts a mod ID or a Nexus mod URL in the selected game.
+Without `--file`, `data.files` contains the mod's upload list.
 Use a `file_id` from `data.files.records` for `--file`.
+The selected upload appears under `data.selected_file`; `data.files` is omitted.
 
-The file list uses `--file-offset` and `--file-limit`;
-`--file-category` filters it case-insensitively.
+The file list is ordered by upload time, newest first, then by descending file ID.
+Use `--file-offset` and `--file-limit` to page toward older uploads;
+`--file-category` filters the list case-insensitively.
+These file-list options cannot be combined with `--file`.
 File descriptions are included.
 `--description` adds the mod description;
 `--changelog` adds the selected file's changelog.

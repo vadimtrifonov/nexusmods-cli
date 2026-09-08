@@ -92,21 +92,23 @@ internal static class CommandLine
         var game = Game();
         var mod = Text("--mod", "Positive mod ID or Nexus HTTPS URL in the selected game.", required: true);
         var description = new Option<bool>("--description") { Description = "Include the mod description.", Arity = ArgumentArity.Zero };
-        var category = Text("--file-category", "Case-insensitive file category.");
-        var fileOffset = Number("--file-offset", "File offset.", 0, 0, 1_000_000);
-        var fileLimit = Number("--file-limit", "Maximum files.", 50, 1, 500);
-        var file = Text("--file", "Select a positive file ID; adds applicable v3 dependencies.");
+        var category = Text("--file-category", "Case-insensitive file-list category; cannot be combined with --file.");
+        var fileOffset = Number("--file-offset", "File-list offset, newest uploads first; cannot be combined with --file.", 0, 0, 1_000_000);
+        var fileLimit = Number("--file-limit", "Maximum listed files; cannot be combined with --file.", 50, 1, 500);
+        var file = Text("--file", "Inspect a positive file ID instead of listing uploads; includes version dependencies.");
         var changelog = new Option<bool>("--changelog") { Description = "Include the selected file's changelog; requires --file.", Arity = ArgumentArity.Zero };
         var contents = new Option<bool>("--contents") { Description = "Query indexed archive contents; requires --file.", Arity = ArgumentArity.Zero };
         var path = Text("--content-path", "Literal substring of at least two characters, not a glob; requires --contents.");
         var extension = Text("--content-extension", "Extension with or without a leading dot; requires --contents.");
         var contentOffset = Number("--content-offset", "Content offset; requires --contents.", 0, 0, 1_000_000);
         var contentLimit = Number("--content-limit", "Maximum indexed entries; requires --contents.", 100, 1, 1_000);
-        var command = new CliCommand("inspect", "Inspect mod/files and active author-declared requirements.")
+        var command = new CliCommand("inspect", "Inspect a mod or selected file, including active author-declared requirements.")
             { game, mod, description, category, fileOffset, fileLimit, file, changelog, contents, path, extension, contentOffset, contentLimit };
         command.SetAction(parse =>
         {
             var id = parse.GetValue(file) is { } value ? PositiveId(value, "--file") : null;
+            if (id is not null && new Option[] { category, fileOffset, fileLimit }.Any(option => parse.GetResult(option) is { Implicit: false }))
+                throw Invalid("File-list options cannot be combined with --file.");
             var withChangelog = parse.GetValue(changelog);
             var withContents = parse.GetValue(contents);
             if ((withChangelog || withContents) && id is null) throw Invalid("--changelog and --contents require --file.");

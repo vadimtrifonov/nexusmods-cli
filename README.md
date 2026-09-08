@@ -24,10 +24,11 @@ nexusmods search --game fallout4 --query "patch" --field name-stemmed --limit 10
 
 ### Inspect
 
-Inspection returns mod details, a paginated file list, and the requirements listed on the mod page,
-including DLC, off-site links, and author notes.
-Selecting a file also retrieves any dependencies declared for that version.
-These are reported separately from the mod-page requirements,
+Inspection returns mod details, uploads ordered newest first,
+and the requirements listed on the mod page, including DLC, off-site links, and author notes.
+Selecting a file shows that upload instead of the list
+and retrieves any dependencies declared for that version.
+These are reported separately from mod-page requirements,
 with alternatives and candidate versions grouped by requirement.
 
 ```powershell
@@ -94,7 +95,7 @@ JSON results place retrieved information in `data` and report problems in `error
 `meta` includes the sources, retrieval time, and available API rate limits.
 
 For example, `inspect` can return `partial` when a dependency lookup fails
-but the mod details and file list remain available.
+but the mod details and selected file remain available.
 
 | Status | Meaning | Exit code |
 | --- | --- | --- |

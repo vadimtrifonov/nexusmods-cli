@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Numerics;
+
 namespace NexusMods;
 
 internal sealed class Commands(NexusV1 v1, NexusV2 v2, NexusV3 v3, Download download, Func<string>? loadKey = null)
@@ -67,19 +70,21 @@ internal sealed class Commands(NexusV1 v1, NexusV2 v2, NexusV3 v3, Download down
         var limits = RateLimits.Merge(resolved.RateLimits, result.RateLimits);
         if (result.Data is not { } bundle) return Missing(errors, "Nexus did not return the requested mod.", ["nexus-v2"], limits);
         var sources = new List<string> { "nexus-v2" };
-        var category = request.FileCategory?.ToUpperInvariant();
-        var filtered = bundle.Files.Where(file => category is null || file.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToArray();
-        var files = filtered.Skip(request.FileOffset).Take(request.FileLimit).Select(file => file with { Changelog = null }).ToArray();
-        var data = new Dictionary<string, object>
+        var data = new Dictionary<string, object> { ["mod"] = bundle.Mod };
+        if (request.FileId is null)
         {
-            ["mod"] = bundle.Mod,
-            ["files"] = new
+            var category = request.FileCategory?.ToUpperInvariant();
+            var filtered = bundle.Files.Where(file => category is null || file.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToArray();
+            var files = filtered.OrderByDescending(file => file.UploadedAt, StringComparer.Ordinal)
+                .ThenByDescending(file => BigInteger.Parse(file.FileId, CultureInfo.InvariantCulture))
+                .Skip(request.FileOffset).Take(request.FileLimit).ToArray();
+            data["files"] = new
             {
                 total_count = filtered.Length, returned_count = files.Length, offset = request.FileOffset, limit = request.FileLimit, category,
                 totals_by_category = bundle.Files.GroupBy(file => file.Category).ToDictionary(group => group.Key, group => group.Count()), records = files
-            }
-        };
-        if (request.FileId is not null)
+            };
+        }
+        else
         {
             var selected = bundle.Files.FirstOrDefault(file => file.FileId == request.FileId)
                 ?? throw new CliException("FILE_NOT_FOUND", "The selected file does not belong to the requested mod.", "nexus-v2");

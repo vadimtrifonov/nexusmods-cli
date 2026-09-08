@@ -62,9 +62,11 @@ public sealed class CommandLineTests
         Assert.Equal("asc", reversed.Options.Direction);
         var inspect = Assert.IsType<InspectCommand>(await Bind("inspect", game, "--mod", "https://www.nexusmods.com/skyrimspecialedition/mods/12604?tab=files"));
         Assert.Equal(new InspectOptions(Fixtures.Skyrim.Domain, "12604", false, null, 0, 50, null, false, false, null, null, 0, 100), inspect.Options);
+        var page = Assert.IsType<InspectCommand>(await Bind("inspect", game, "--mod=1", "--file-category=MAIN", "--file-offset=1000000", "--file-limit=500"));
+        Assert.Equal(new InspectOptions(Fixtures.Skyrim.Domain, "1", false, "MAIN", 1_000_000, 500, null, false, false, null, null, 0, 100), page.Options);
         var contents = Assert.IsType<InspectCommand>(await Bind("inspect", game, "--mod", "1", "--file=2", "--description", "--changelog", "--contents",
-            "--file-category=MAIN", "--file-offset=1000000", "--file-limit=500", "--content-path=meshes/", "--content-extension=.nif", "--content-offset=1000000", "--content-limit=1000"));
-        Assert.Equal(new InspectOptions(Fixtures.Skyrim.Domain, "1", true, "MAIN", 1_000_000, 500, "2", true, true, "meshes/", ".nif", 1_000_000, 1000), contents.Options);
+            "--content-path=meshes/", "--content-extension=.nif", "--content-offset=1000000", "--content-limit=1000"));
+        Assert.Equal(new InspectOptions(Fixtures.Skyrim.Domain, "1", true, null, 0, 50, "2", true, true, "meshes/", ".nif", 1_000_000, 1000), contents.Options);
         foreach (var domain in new[] { "skyrimspecialedition", "fallout4" })
         {
             var selected = Assert.IsType<InspectCommand>(await Bind("inspect", "--game", domain.ToUpperInvariant(), "--mod", $"https://www.nexusmods.com/{domain}/mods/1"));
@@ -150,6 +152,9 @@ public sealed class CommandLineTests
             ["inspect", "--mod=1", "--description=fake-secret"],
             ["inspect", "--mod=1", "--description=false"],
             ["inspect", "--mod=1", "--file-limit=501"],
+            ["inspect", "--mod=1", "--file=2", "--file-category=MAIN"],
+            ["inspect", "--mod=1", "--file=2", "--file-offset=0"],
+            ["inspect", "--mod=1", "--file=2", "--file-limit=50"],
             ["inspect", "--mod=1", "--file=2", "--contents", "--content-limit=1001"],
             ["inspect", "--mod=1", "--content-offset=0"],
             ["inspect", "--mod=1", "--content-limit=100"],

@@ -55,13 +55,83 @@ public sealed class ApiTests
         }));
         var commands = Fixtures.Commands(client);
         var result = await Fixtures.Run(commands, "inspect", "--game=skyrimspecialedition", "--mod", "12604", "--file", "749043", "--description", "--changelog");
+        Assert.False(Fixtures.Node(result.Data!).AsObject().ContainsKey("files"));
         Fixtures.Golden("inspect", result);
         includeChangelog = false;
         var plain = Fixtures.Node(await Fixtures.Run(commands, "inspect", "--game=skyrimspecialedition", "--mod", "12604"));
+        Assert.False(plain["data"]!.AsObject().ContainsKey("selected_file"));
+        Assert.False(plain["data"]!.AsObject().ContainsKey("dependencies"));
         Assert.Null(plain["data"]!["mod"]!["description"]);
         Assert.Null(plain["data"]!["files"]!["records"]![0]!["changelog"]);
         Assert.Null(plain["data"]!["files"]!["records"]![0]!["archive_name"]);
         Assert.Equal("storage/fixture", (string?)plain["data"]!["files"]!["records"]![0]!["uri"]);
+    }
+
+    [Fact]
+    public async Task InspectionPagesNewestUploadsAndSelectsFilesIndependently()
+    {
+        var catalog = Fixtures.Load("catalog");
+        var files = catalog["data"]!["modFiles"]!.AsArray();
+        var template = files[0]!;
+        files.Clear();
+        for (var i = 0; i < 55; i++)
+        {
+            var id = 99970 + i;
+            var file = template.DeepClone();
+            file["uid"] = 7318624272384L + id;
+            file["fileId"] = id;
+            file["date"] = 1778020881 + i;
+            file["version"] = $"1.{i}";
+            file["category"] = i switch { 51 or 53 => "MAIN", 54 => "OPTIONAL", _ => "OLD_VERSION" };
+            file["primary"] = i == 53 ? 1 : 0;
+            files.Add(file);
+        }
+        // Equal upload times for IDs 99999 and 100000 exercise numeric tie-breaking.
+        files[29]!["date"] = files[30]!["date"]!.DeepClone();
+        // The highest ID is not the newest upload.
+        files[^1]!["date"] = 1778020880;
+        var expected = Enumerable.Range(99970, 54).Reverse().Select(id => id.ToString()).Append("100024").ToArray();
+        using var client = new HttpClient(new StubHttp(async request =>
+        {
+            var query = (string)JsonNode.Parse(await request.Content!.ReadAsStringAsync())!["query"]!;
+            if (query.Contains("query ResolveGame")) return Fixtures.Game(Fixtures.Skyrim);
+            if (query.Contains("query ModRequirements")) return Fixtures.Json(Fixtures.Load("requirements"));
+            return Fixtures.Json(catalog);
+        }));
+        var commands = Fixtures.Commands(client);
+        var first = await Fixtures.Run(commands, "inspect", "--game=skyrimspecialedition", "--mod=12604");
+        var firstPage = Fixtures.Node(first.Data!)["files"]!;
+        Assert.Equal(55, (int)firstPage["total_count"]!);
+        Assert.Equal(50, (int)firstPage["returned_count"]!);
+        Assert.Equal(expected[..50], firstPage["records"]!.AsArray().Select(file => (string?)file!["file_id"]));
+        var next = await Fixtures.Run(commands, "inspect", "--game=skyrimspecialedition", "--mod=12604", "--file-offset=50");
+        var nextPage = Fixtures.Node(next.Data!)["files"]!;
+        Assert.Equal(55, (int)nextPage["total_count"]!);
+        Assert.Equal(5, (int)nextPage["returned_count"]!);
+        Assert.Equal(expected[50..], nextPage["records"]!.AsArray().Select(file => (string?)file!["file_id"]));
+
+        var result = await Fixtures.Run(commands, "inspect", "--game=skyrimspecialedition", "--mod=12604",
+            "--file-category=mAiN", "--file-offset=1", "--file-limit=1");
+        Assert.Equal("complete", result.Status);
+        var data = Fixtures.Node(result.Data!);
+        var page = data["files"]!;
+        Assert.Equal(2, (int)page["total_count"]!);
+        Assert.Equal(1, (int)page["returned_count"]!);
+        Assert.Equal(1, (int)page["offset"]!);
+        Assert.Equal(1, (int)page["limit"]!);
+        Assert.Equal("MAIN", (string?)page["category"]);
+        Assert.Equal(2, (int)page["totals_by_category"]!["MAIN"]!);
+        Assert.Equal(1, (int)page["totals_by_category"]!["OPTIONAL"]!);
+        Assert.Equal(52, (int)page["totals_by_category"]!["OLD_VERSION"]!);
+        Assert.Equal("100021", (string?)Assert.Single(page["records"]!.AsArray())!["file_id"]);
+        Assert.Equal("ok", (string?)data["author_declared_requirements"]!["status"]);
+
+        var selected = await Fixtures.Run(commands, "inspect", "--game=skyrimspecialedition", "--mod=12604", "--file=100024");
+        Assert.Equal("complete", selected.Status);
+        var selectedData = Fixtures.Node(selected.Data!).AsObject();
+        Assert.False(selectedData.ContainsKey("files"));
+        Assert.Equal("100024", (string?)selectedData["selected_file"]!["file_id"]);
+        Assert.False(selectedData["selected_file"]!.AsObject().ContainsKey("changelog"));
     }
 
     [Fact]
@@ -123,6 +193,7 @@ public sealed class ApiTests
             Assert.Equal("123", result.Meta.RateLimits!["hourly_remaining"]);
             if (result.Status == "partial") Assert.Equal("Game lookup warning", Assert.Single(result.Errors).Message);
             var data = Fixtures.Node(result.Data!);
+            Assert.False(data.AsObject().ContainsKey("files"));
             Assert.Equal($"https://www.nexusmods.com/{game.Domain}/mods/12604", (string?)data["mod"]!["url"]);
             Assert.Equal((string?)data["mod"]!["url"], (string?)data["mod"]!["description"]!["source_url"]);
             Assert.Equal(game.Id, (string?)data["contents"]!["entries"]![0]!["game_id"]);
