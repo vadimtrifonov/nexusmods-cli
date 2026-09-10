@@ -29,16 +29,13 @@ Use `mise exec -- nexusmods.exe <command> --help` for options, defaults, and lim
 - File-version dependencies
 - Downloads (Premium subscription required)
 
-For authenticated operations,
-the user configures a key from the [API Access page](https://www.nexusmods.com/users/myaccount?tab=api)
-in an interactive terminal:
+For authenticated operations, the user configures a key from the [API Access page](https://www.nexusmods.com/users/myaccount?tab=api) in an interactive terminal:
 
 ```powershell
 mise exec -- nexusmods.exe auth set
 ```
 
-`auth set` reads the key without echo, validates it with Nexus,
-and stores it in Windows Credential Manager.
+`auth set` reads the key without echo, validates it with Nexus, and stores it in Windows Credential Manager.
 `auth status` reports configuration and account status;
 `auth remove` deletes the stored key.
 
@@ -80,8 +77,7 @@ These file-list options cannot be combined with `--file`.
 File descriptions are included.
 `--description` adds the mod description;
 `--changelog` adds the selected file's changelog.
-File `uri` values are Nexus storage references,
-which can be filenames or internal paths.
+File `uri` values are Nexus storage references, which can be filenames or internal paths.
 
 ### Requirements
 
@@ -116,8 +112,7 @@ mise exec -- nexusmods.exe identify --path "C:\Downloads\archive.7z"
 ```
 
 `data.local` contains the archive's MD5 and size.
-`data.associations` contains every Nexus hash record across games,
-including conflicting sizes and records without a linked file.
+`data.associations` contains every Nexus hash record across games, including conflicting sizes and records without a linked file.
 Multiple uploads can share the same hash.
 
 ## Download
@@ -130,14 +125,12 @@ The output directory must exist and be absolute.
 Nexus supplies the archive filename;
 existing destinations are preserved.
 
-After an interruption, retry the same command
-with `<archive>.part` and `<archive>.nexus-state.json` in place.
+After an interruption, retry the same command with `<archive>.part` and `<archive>.nexus-state.json` in place.
 The saved state must match the game and mod/file IDs.
 The transfer resumes when possible and may restart from the beginning.
 
 `<archive>.nexus-lock` prevents overlapping downloads.
-If a stopped process leaves its lock,
-confirm that no download is running and remove only the lock before retrying.
+If a stopped process leaves its lock, confirm that no download is running and remove only the lock before retrying.
 Keep the partial archive and state file.
 
 `data.transfer` is the receipt for the saved archive.

@@ -1,7 +1,6 @@
 # Nexus Mods CLI
 
-`nexusmods` searches Nexus Mods, inspects requirements and indexed archive contents,
-identifies local archives, and downloads files.
+`nexusmods` searches Nexus Mods, inspects requirements and indexed archive contents, identifies local archives, and downloads files.
 
 ## Requirements
 
@@ -24,12 +23,9 @@ nexusmods search --game fallout4 --query "patch" --field name-stemmed --limit 10
 
 ### Inspect
 
-Inspection returns mod details, uploads ordered newest first,
-and the requirements listed on the mod page, including DLC, off-site links, and author notes.
-Selecting a file shows that upload instead of the list
-and retrieves any dependencies declared for that version.
-These are reported separately from mod-page requirements,
-with alternatives and candidate versions grouped by requirement.
+Inspection returns mod details, uploads ordered newest first, and the requirements listed on the mod page, including DLC, off-site links, and author notes.
+Selecting a file shows that upload instead of the list and retrieves any dependencies declared for that version.
+These are reported separately from mod-page requirements, with alternatives and candidate versions grouped by requirement.
 
 ```powershell
 nexusmods inspect --game skyrimspecialedition --mod 12604 --description
@@ -84,8 +80,7 @@ Save a personal key from Nexus's [API Access page](https://www.nexusmods.com/use
 nexusmods auth set
 ```
 
-`auth set` prompts for the key without echo, validates it with Nexus,
-and stores it in Windows Credential Manager.
+`auth set` prompts for the key without echo, validates it with Nexus, and stores it in Windows Credential Manager.
 `nexusmods auth status` checks configuration and account status;
 `nexusmods auth remove` deletes the stored key.
 
@@ -94,8 +89,7 @@ and stores it in Windows Credential Manager.
 JSON results place retrieved information in `data` and report problems in `errors`.
 `meta` includes the sources, retrieval time, and available API rate limits.
 
-For example, `inspect` can return `partial` when a dependency lookup fails
-but the mod details and selected file remain available.
+For example, `inspect` can return `partial` when a dependency lookup fails but the mod details and selected file remain available.
 
 | Status | Meaning | Exit code |
 | --- | --- | --- |
@@ -115,5 +109,4 @@ mise run test
 mise run publish
 ```
 
-`mise run publish` creates the Windows x64 distribution in
-`artifacts/nexusmods-<version>-win-x64/` and a matching ZIP.
+`mise run publish` creates the Windows x64 distribution in `artifacts/nexusmods-<version>-win-x64/` and a matching ZIP.
