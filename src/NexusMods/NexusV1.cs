@@ -24,8 +24,10 @@ internal sealed class NexusV1(ApiHttp http)
         if (returnedId != fileId)
             throw new CliException("FILE_ID_MISMATCH", "Nexus returned metadata for a different file.", Source,
                 new() { ["requested_file_id"] = fileId, ["returned_file_id"] = returnedId });
+        // Nexus sometimes reports zero for nonempty archives; let the CDN supply the size.
+        var sizeBytes = file["size_in_bytes"].OptionalId();
         return new FileMetadata(new(returnedId, file["name"].Text(), file["file_name"].Text(), file["version"].Text(),
-            file["category_name"].OptionalText(), file["size_in_bytes"].OptionalId()), response.RateLimits);
+            file["category_name"].OptionalText(), sizeBytes == "0" ? null : sizeBytes), response.RateLimits);
     });
 
     internal Task<DownloadLinks> Links(string key, string gameDomain, string modId, string fileId) => CliException.From(Source, async () =>

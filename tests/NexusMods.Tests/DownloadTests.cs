@@ -65,6 +65,68 @@ public sealed class DownloadTests
         }
     }
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData("0")]
+    public async Task ZeroMetadataSizesUseContentLengthAndResumeWithTheSavedTotal(object metadataSize)
+    {
+        using var directory = new TemporaryDirectory();
+        var transfers = 0;
+        using var client = Fixtures.Client(request =>
+        {
+            if (request.RequestUri!.Host == "api.nexusmods.com")
+            {
+                if (request.RequestUri.AbsolutePath.EndsWith("download_link.json"))
+                    return Fixtures.Json(new[] { new { URI = "https://cdn.example.test/archive" } });
+                return Fixtures.Json(new { file_id = 2, name = "Fixture", file_name = "fixture.zip", version = "1", category_name = "MAIN", size_in_bytes = metadataSize });
+            }
+            if (transfers++ == 0)
+            {
+                Assert.Null(request.Headers.Range);
+                return Response(new ChunkStream([Encoding.UTF8.GetBytes("AAAA")], new IOException("interrupted")), 200,
+                    ("Content-Length", "8"), ("ETag", "\"same\""));
+            }
+            Assert.Equal("bytes=4-", request.Headers.Range?.ToString());
+            Assert.Equal("\"same\"", Assert.Single(request.Headers.GetValues("If-Match")));
+            return Body("BBBB", 206, ("Content-Range", "bytes 4-7/8"), ("ETag", "\"same\""));
+        });
+        var commands = Fixtures.Commands(client, () => "fake-key");
+        var command = new DownloadCommand(Fixtures.Skyrim.Domain, "1", "2", directory.Path);
+        await Fixtures.Error("DOWNLOAD_INTERRUPTED", "nexus-cdn", () => commands.Execute(command));
+        Assert.Equal("AAAA", await File.ReadAllTextAsync(Part(directory)));
+        Assert.Equal("8", (string?)JsonNode.Parse(await File.ReadAllTextAsync(State(directory)))!["expected_size"]);
+        var result = await commands.Execute(command);
+        Assert.Equal("complete", result.Status);
+        var data = Fixtures.Node(result.Data!);
+        Assert.Null(data["source"]!["metadata_size"]);
+        Assert.Equal("8", (string?)data["transfer"]!["size_bytes"]);
+        Assert.Equal("4", (string?)data["transfer"]!["resumed_from_byte"]);
+        Assert.Equal("AAAABBBB", await File.ReadAllTextAsync(directory.File("fixture.zip")));
+        Assert.Equal([directory.File("fixture.zip")], Directory.GetFiles(directory.Path));
+    }
+
+    [Theory]
+    [InlineData(9, "8", "BBBBBBBB", "SIZE_MISMATCH")]
+    [InlineData(0, null, "BBBBBBBB", "DOWNLOAD_SIZE_UNKNOWN")]
+    [InlineData(0, "8", "BBBB", "SIZE_MISMATCH")]
+    public async Task MetadataSizeHandlingKeepsTransferSizeChecks(int metadataSize, string? length, string bytes, string code)
+    {
+        using var directory = new TemporaryDirectory();
+        using var client = Fixtures.Client(request =>
+        {
+            if (request.RequestUri!.Host == "api.nexusmods.com")
+            {
+                if (request.RequestUri.AbsolutePath.EndsWith("download_link.json"))
+                    return Fixtures.Json(new[] { new { URI = "https://cdn.example.test/archive" } });
+                return Fixtures.Json(new { file_id = 2, name = "Fixture", file_name = "fixture.zip", version = "1", category_name = "MAIN", size_in_bytes = metadataSize });
+            }
+            return Body(bytes, 200, length is null ? [] : [("Content-Length", length)]);
+        });
+        await Fixtures.Error(code, "nexus-cdn", () => Fixtures.Commands(client, () => "fake-key")
+            .Execute(new DownloadCommand(Fixtures.Skyrim.Domain, "1", "2", directory.Path)));
+        Assert.False(File.Exists(directory.File("fixture.zip")));
+    }
+
     [Fact]
     public async Task AnInterruptedTransferResumesUsingTheSavedStrongEtag()
     {
