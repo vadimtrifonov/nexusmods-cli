@@ -12,7 +12,6 @@ Run commands from this skill directory.
 
 ```powershell
 mise trust mise.toml
-mise install
 ```
 
 Use `mise exec -- nexusmods.exe <command> --help` for options, defaults, and limits.

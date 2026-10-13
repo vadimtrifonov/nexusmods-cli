@@ -103,7 +103,6 @@ Development uses the .NET 10 SDK, managed through [mise](https://mise.jdx.dev/).
 
 ```powershell
 mise trust
-mise install
 mise run build
 mise run test
 mise run publish
